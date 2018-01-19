@@ -30,7 +30,26 @@ textarea {
     <body>
         <textarea id="input"></textarea><br/>
         <button id="submitButton">Check Sentiment</button>
-        <div id="output"></div>
+        <div id="output">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Negative %</td>
+                        <td>Neutral %</td>
+                        <td>Positive %</td>
+                        <td>Compound Score</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="neg-score"></td>
+                        <td id="neu-score"></td>
+                        <td id="pos-score"></td>
+                        <td id="compound-score"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <script>
 var output = document.getElementById("output")
 var input = document.getElementById("input")
@@ -39,7 +58,16 @@ button.onclick = function(e) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/polarity')
     xhr.onload = function() {
-        output.innerHTML = xhr.responseText
+        obj = {}
+        try {
+            obj = JSON.parse(xhr.responseText)
+        } catch (e) {
+            output.innerHTML = xhr.responseText
+        }
+        for (var i in obj) {
+            document.querySelector("#" + i + "-score").innerText = obj[i]
+        }
+        
     }
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.send(JSON.stringify({content: input.value}))
