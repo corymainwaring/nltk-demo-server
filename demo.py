@@ -1,4 +1,5 @@
 import csv
+import json
 
 import nltk
 from nltk import sentiment
@@ -37,7 +38,7 @@ def polarity():
     with open('sentiments.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow([content, scores['compound']])
-    return repr(scores)
+    return json.dumps(scores)
 
 @app.route('/polarity')
 def form():
