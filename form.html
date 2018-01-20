@@ -106,6 +106,9 @@ button.onclick = function(e) {
 var posButton = document.getElementById("posButton")
 posButton.onclick = function(e) {
     var output = document.getElementById("posOutput")
+    while (output.hasChildNodes()) {
+        output.removeChild(output.firstChild)
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/pos')
     xhr.onload = function() {
