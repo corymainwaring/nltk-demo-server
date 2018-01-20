@@ -43,7 +43,7 @@ def form():
     with open('form.html', 'r') as f:
         return f.read()
 
-@app.route('/api/pos')
+@app.route('/api/pos', methods=['POST'])
 def tag_part_of_speech(content):
     '''
     Utility function to perform part of speech tagging on input.
