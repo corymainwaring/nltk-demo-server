@@ -30,8 +30,6 @@ def polarity():
 
     data = request.json
     content = data['content']
-    if len(content) > 1024:
-        return "Text too long"
 
     analyzer = sentiment.vader.SentimentIntensityAnalyzer()
     scores = analyzer.polarity_scores(content)
@@ -45,6 +43,7 @@ def form():
     with open('form.html', 'r') as f:
         return f.read()
 
+@app.route('/api/pos')
 def tag_part_of_speech(content):
     '''
     Utility function to perform part of speech tagging on input.
@@ -60,9 +59,12 @@ def tag_part_of_speech(content):
         A list of of 2-tuples representing word, part of speech tag pairs.
     '''
 
+    data = request.json
+    content = data['content']
+
     if isinstance(content, str):
         content = nltk.tokenize.word_tokenize(content)
-    return nltk.tag.pos_tag(content)
+    return json.dumps(nltk.tag.pos_tag(content))
 
 
 def chunk_pos_tagged_tokens(tagged_tokens):
