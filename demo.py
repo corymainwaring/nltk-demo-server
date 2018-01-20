@@ -44,7 +44,7 @@ def form():
         return f.read()
 
 @app.route('/api/pos', methods=['POST'])
-def tag_part_of_speech(content):
+def tag_part_of_speech():
     '''
     Utility function to perform part of speech tagging on input.
 
