@@ -44,7 +44,7 @@ def form():
         return f.read()
 
 @app.route('/api/pos', methods=['POST'])
-def tag_part_of_speech():
+def tag_part_of_speech(content=None):
     '''
     Utility function to perform part of speech tagging on input.
 
@@ -59,8 +59,9 @@ def tag_part_of_speech():
         A list of of 2-tuples representing word, part of speech tag pairs.
     '''
 
-    data = request.json
-    content = data['content']
+    if content is None:
+        data = request.json
+        content = data['content']
 
     if isinstance(content, str):
         content = nltk.tokenize.word_tokenize(content)
