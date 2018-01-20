@@ -80,6 +80,18 @@ textarea {
             </table>
         </div>
         <button id="eneButton">Extract Named Entities</button>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Entity</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody id="eneOutput">
+                </tbody>
+            </table>
+        </div>
     <script>
 var output = document.getElementById("output")
 var input = document.getElementById("input")
@@ -133,6 +145,35 @@ posButton.onclick = function(e) {
     xhr.send(JSON.stringify({content: input.value}))
 }
 
+var eneButton = document.getElementById("eneButton")
+eneButton.onclick = function(e) {
+    var output = document.getElementById("eneOutput")
+    while (output.hasChildNodes()) {
+        output.removeChild(output.firstChild)
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/get_named_entities')
+    xhr.onload = function() {
+        obj = {}
+        try {
+            obj = JSON.parse(xhr.responseText)
+        } catch (e) {
+            output.innerHTML = xhr.responseText
+        }
+        for (var i in obj) {
+            var tr = document.createElement("tr")
+            var td = document.createElement("td")
+            td.innerText = obj[i][0]
+            tr.appendChild(td)
+            td = document.createElement("td")
+            td.innerText = obj[i][1]
+            tr.appendChild(td)
+            output.appendChild(tr)
+        }
+    }
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.send(JSON.stringify({content: input.value}))
+}
     </script>
     </body>
 </html>

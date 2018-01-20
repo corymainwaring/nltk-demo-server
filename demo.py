@@ -129,7 +129,8 @@ def get_named_entities_from_chunks(chunks):
         ) for chunk in chunks if isinstance(chunk, nltk.tree.Tree)
     ]
 
-def get_named_entities(content):
+@app.route('/api/get_named_entities', methods = ['POST'])
+def get_named_entities():
     '''
     Returns a list of named entity, type of entity pairs from input.
 
@@ -143,6 +144,9 @@ def get_named_entities(content):
     list
         A list of of 2-tuples representing named entity, type of entity pairs.
     '''
+
+    data = request.json
+    content = data['content']
 
     if isinstance(content, str):
         chunked = chunk(content)
