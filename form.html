@@ -20,7 +20,7 @@ button {
     box-shadow: 4px 3px 10px 0px rgba(0,0,0,0.5);
 }
 
-#output {
+div {
     font-size: 1.5em;
     padding: 0.25em;
 }
@@ -72,6 +72,7 @@ textarea {
                 <thead>
                     <tr>
                         <th>Word</th>
+                        <th>Speech Code</th>
                         <th>Part of Speech</th>
                     </tr>
                 </thead>
@@ -93,6 +94,46 @@ textarea {
             </table>
         </div>
     <script>
+
+
+var PartOfSpeechLookup = {
+"CC":	"Coordinating conjunction",
+"CD":	"Cardinal number",
+"DT":	"Determiner",
+"EX":	"Existential there",
+"FW":	"Foreign word",
+"IN":	"Preposition or subordinating conjunction",
+"JJ":	"Adjective",
+"JJR":	"Adjective, comparative",
+"JJS":	"Adjective, superlative",
+"LS":	"List item marker",
+"MD":	"Modal",
+"NN":	"Noun, singular or mass",
+"NNS":	"Noun, plural",
+"NNP":	"Proper noun, singular",
+"NNPS":	"Proper noun, plural",
+"PDT":	"Predeterminer",
+"POS":	"Possessive ending",
+"PRP":	"Personal pronoun",
+"PRP$":	"Possessive pronoun",
+"RB":	"Adverb",
+"RBR":	"Adverb, comparative",
+"RBS":	"Adverb, superlative",
+"RP":	"Particle",
+"SYM":	"Symbol",
+"TO":	"to",
+"UH":	"Interjection",
+"VB":	"Verb, base form",
+"VBD":	"Verb, past tense",
+"VBG":	"Verb, gerund or present participle",
+"VBN":	"Verb, past participle",
+"VBP":	"Verb, non-3rd person singular present",
+"VBZ":	"Verb, 3rd person singular present",
+"WDT":	"Wh-determiner",
+"WP":	"Wh-pronoun",
+"WP$":	"Possessive wh-pronoun",
+"WRB":	"Wh-adverb"
+}
 var output = document.getElementById("output")
 var input = document.getElementById("input")
 var button = document.getElementById("sentimentButton")
@@ -109,7 +150,6 @@ button.onclick = function(e) {
         for (var i in obj) {
             document.querySelector("#" + i + "-score").innerText = obj[i]
         }
-        
     }
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.send(JSON.stringify({content: input.value}))
@@ -136,8 +176,14 @@ posButton.onclick = function(e) {
             td.innerText = obj[i][0]
             tr.appendChild(td)
             td = document.createElement("td")
-            td.innerText = obj[i][1]
+            partOfSpeechAbbrev = obj[i][1]
+            td.innerText = partOfSpeechAbbrev
             tr.appendChild(td)
+            td = document.createElement("td")
+            partOfSpeech = PartOfSpeechLookup[partOfSpeechAbbrev]
+            td.innerText = partOfSpeechAbbrev
+            tr.appendChild(td)
+
             output.appendChild(tr)
         }
     }
