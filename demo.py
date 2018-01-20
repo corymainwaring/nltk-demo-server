@@ -9,10 +9,6 @@ from flask import request
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
 @app.route('/api/polarity', methods=['POST'])
 def polarity():
     '''
@@ -38,7 +34,7 @@ def polarity():
         writer.writerow([content, scores['compound']])
     return json.dumps(scores)
 
-@app.route('/polarity')
+@app.route('/')
 def form():
     with open('form.html', 'r') as f:
         return f.read()
