@@ -171,6 +171,6 @@ def get_named_entities():
     if isinstance(content, str):
         chunked = chunk(content)
         content = chunked
-    return get_named_entities_from_chunks(content)
+    return json.dumps(get_named_entities_from_chunks(content))
 
 
