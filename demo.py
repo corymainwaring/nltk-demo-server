@@ -169,4 +169,5 @@ def get_named_entities():
         content = chunked
     return json.dumps(get_named_entities_from_chunks(content))
 
-
+if __name__ == "__main__":
+    app.run()
